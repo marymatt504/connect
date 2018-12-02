@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS events (
   location_address3 VARCHAR(120),
   city VARCHAR(100) NOT NULL,
   state CHAR(2) NOT NULL,
-  country CHAR(2) NOT NULL,
+  country VARCHAR(20) NOT NULL,
   postalCode  VARCHAR(16) NOT NULL,
   description TEXT NOT NULL
 );
@@ -40,5 +40,5 @@ CREATE TABLE IF NOT EXISTS attendees (
 );
 
 -- COMPLETE THESE LINES!!!
-COPY events("title", "date", "starttime", "endtime", "venuename", "location_address1", "city", "state", "country", "postalcode", "descrition") FROM '/Users/marymatthews/connect/database/events.csv' WITH DELIMITER ',' CSV HEADER;
+COPY events("title", "date", "starttime", "endtime", "venuename", "location_address1", "city", "state", "country", "postalcode", "description") FROM '/Users/marymatthews/connect/database/events.csv' WITH DELIMITER ',' CSV HEADER;
 COPY attendees("event_id", "firstname", "lastname", "company", "industry", "local", "linkedInURL", "emailphotoURL", "groupNumber") FROM '/Users/marymatthews/connect/database/attendees.csv' WITH DELIMITER ',' CSV HEADER;
