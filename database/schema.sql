@@ -39,5 +39,6 @@ CREATE TABLE IF NOT EXISTS attendees (
   FOREIGN KEY (event_id) REFERENCES events (id)
 );
 
--- COPY movies("title", "year", "image", "actor") FROM '/Users/marymatthews/SDC/related_movies/database/movie4.csv' WITH DELIMITER ',' CSV HEADER;
--- COPY movies("title", "year", "image", "actor") FROM '/Users/marymatthews/SDC/related_movies/database/movie4.csv' WITH DELIMITER ',' CSV HEADER;
+-- COMPLETE THESE LINES!!!
+COPY events("title", "date", "starttime", "endtime", "venuename", "location_address1", "city", "state", "country", "postalcode", "descrition") FROM '/Users/marymatthews/connect/database/events.csv' WITH DELIMITER ',' CSV HEADER;
+COPY attendees("event_id", "firstname", "lastname", "company", "industry", "local", "linkedInURL", "emailphotoURL", "groupNumber") FROM '/Users/marymatthews/connect/database/attendees.csv' WITH DELIMITER ',' CSV HEADER;
