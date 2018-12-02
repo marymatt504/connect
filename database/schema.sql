@@ -33,12 +33,13 @@ CREATE TABLE IF NOT EXISTS attendees (
   company VARCHAR(150) NOT NULL,
   industry VARCHAR(150) NOT NULL,
   local BOOLEAN NOT NULL,
-  linkedInURL VARCHAR(150) NOT NULL,
+  linkedinurl VARCHAR(200) NOT NULL,
   email VARCHAR(150) NOT NULL,
-  photoURL TEXT NOT NULL,
+  photourl TEXT NOT NULL,
+  groupnumber INTEGER,
   FOREIGN KEY (event_id) REFERENCES events (id)
 );
 
 -- COMPLETE THESE LINES!!!
 COPY events("title", "date", "starttime", "endtime", "venuename", "location_address1", "city", "state", "country", "postalcode", "description") FROM '/Users/marymatthews/connect/database/events.csv' WITH DELIMITER ',' CSV HEADER;
-COPY attendees("event_id", "firstname", "lastname", "company", "industry", "local", "linkedInURL", "emailphotoURL", "groupNumber") FROM '/Users/marymatthews/connect/database/attendees.csv' WITH DELIMITER ',' CSV HEADER;
+COPY attendees("event_id", "firstname", "lastname", "company", "industry", "local", "linkedinurl", "email", "photourl", "groupnumber") FROM '/Users/marymatthews/connect/database/attendees.csv' WITH DELIMITER ',' CSV HEADER;
