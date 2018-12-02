@@ -13,3 +13,6 @@ logs
 
 bundle.js 
 NOTES.js
+
+database/events.csv
+database/attendees.csv
