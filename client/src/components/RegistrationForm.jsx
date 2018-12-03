@@ -14,7 +14,8 @@ class RegistrationForm extends React.Component {
       local: false,
       linkedInURL: '',
       email: '',
-      photoURL: ''
+      photoURL: '',
+      eventId: this.props.eventData.eventId
     };
 
     this.handleChange = this.handleChange.bind(this);

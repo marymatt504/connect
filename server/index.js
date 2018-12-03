@@ -21,11 +21,12 @@ app.get('/api/events/:eventId', function (req, res) {
 });
 
 app.post('/api/attendees', (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
 
+  const event_id = req.body.eventId;
   const { firstName, lastName, company, industry, local, email, photoURL, linkedInURL } = req.body;
 
-  db.saveAttendee(firstName, lastName, company, industry, local, linkedInURL, email, photoURL, (error, results) => {
+  db.saveAttendee(event_id, firstName, lastName, company, industry, local, linkedInURL, email, photoURL, (error, results) => {
     if (error) {
       res.status(500).send(error.message);
     } else {
