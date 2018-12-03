@@ -1,18 +1,23 @@
 const express = require('express');
+const db = require('../database/index.js');
+const bodyParser = require('body-parser');
+
 let app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 app.use(express.static(__dirname + '/../client/dist'));
 
-app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
-});
-
-app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
+app.get('/api/events/:eventId', function (req, res) {
+  const eventId = req.params.eventId;
+  db.getEventData(eventId, ((error, results) => {
+    if (error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(200).send(results.rows[0]);
+    }
+  }))
 });
 
 
