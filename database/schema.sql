@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS attendees (
   linkedinurl VARCHAR(200) NOT NULL,
   email VARCHAR(150) NOT NULL,
   photourl TEXT NOT NULL,
-  groupnumber INTEGER,
+  groupnumber INTEGER DEFAULT 0,
   FOREIGN KEY (event_id) REFERENCES events (id)
 );
 

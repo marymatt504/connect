@@ -20,6 +20,23 @@ app.get('/api/events/:eventId', function (req, res) {
   }))
 });
 
+app.post('/api/attendees', (req, res) => {
+  // console.log(req.body);
+
+  const { firstName, lastName, company, industry, local, email, photoURL, linkedInURL } = req.body;
+
+  db.saveAttendee(firstName, lastName, company, industry, local, linkedInURL, email, photoURL, (error, results) => {
+    if (error) {
+      res.status(500).send(error.message);
+    } else {
+      // want to get the user id and save to App state
+      res.status(201).send();
+    }
+  });
+
+
+});
+
 
 
 let port = 3000;

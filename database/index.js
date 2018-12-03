@@ -41,8 +41,25 @@ const getEventData = (eventId, callback) => {
     } else {
       callback(null, results);
     }
-    // client.end();
   });
 };
 
-module.exports = { getEventData };
+const saveAttendee = (firstName, lastName, company, industry, local, linkedInURL, email, photoURL, callback) => {
+
+  const query = {
+    text: 'INSERT INTO attendees(firstName, lastName, company, industry, local, linkedInURL, email, photoURL) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',
+    values: [firstName, lastName, company, industry, local, linkedInURL, email, photoURL],
+  };
+
+  client.query(query, (error, results) => {
+    if (error) {
+      callback(error);
+    } else {
+      // capture the id for this user and save to App state b/c they are now logged in!
+      callback(null, results);
+    }
+  });
+
+};
+
+module.exports = { getEventData, saveAttendee };

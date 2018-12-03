@@ -1,5 +1,6 @@
 import React from 'react';
 import EventHome from './EventHome.jsx'
+import RegistrationForm from './RegistrationForm.jsx';
 const $ = require('jquery');
 
 class App extends React.Component {
@@ -7,7 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       // user can be guest or admin 
-      user: '',
+      user: 'admin',
       view: 'home',
       eventId: 1,
       eventData: {
@@ -43,8 +44,10 @@ class App extends React.Component {
   }
 
   handleRegister() {
-    console.log('clicked register!')
+    // console.log('clicked register!')
+    this.setState({ view: 'register', user: 'guest' });
   }
+
 
   componentDidMount() {
     this.updateEventData(this.state.eventId);
@@ -57,6 +60,13 @@ class App extends React.Component {
         <h1>Welcome to Event Connect!</h1>
         <EventHome eventData={this.state.eventData} handleRegister={this.handleRegister} />
       </div>)
+    }
+    if (this.state.view === 'register') {
+      return (
+        <div>
+          <RegistrationForm eventData={this.state.eventData} updateEventData={this.updateEventData} />
+        </div>
+      )
     }
 
   }
