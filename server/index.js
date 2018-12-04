@@ -31,7 +31,10 @@ app.post('/api/attendees', (req, res) => {
       res.status(500).send(error.message);
     } else {
       // want to get the user id and save to App state
-      res.status(201).send();
+      const newGuestId = results.rows[0].id;
+      console.log(newGuestId, typeof newGuestId);
+
+      res.status(201).send(JSON.stringify({ newGuestId }));
     }
   });
 

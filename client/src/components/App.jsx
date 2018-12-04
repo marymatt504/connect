@@ -25,22 +25,44 @@ class App extends React.Component {
         // "postalcode": "08120",
         // "description": "Omnis porro quos sunt molestias libero aut et possimus. Veritatis perspiciatis quos eos eos explicabo eius. Iste ut dolorem voluptas dolores. Repudiandae voluptates nulla pariatur blanditiis doloremque itaque error dolor iste. Dolore beatae voluptatem vero veritatis."
       },
-      currAttendeeId: 0,
-      allAttendeeData: {},
+      loggedInGuestId: 0,
+      attendees: []
     };
     this.updateEventData = this.updateEventData.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+    this.updateAttendeeData = this.updateAttendeeData.bind(this);
+    this.updateLoggedInGuest = this.updateLoggedInGuest.bind(this);
   }
 
   updateEventData(eventId) {
     $.ajax({
       url: `api/events/${eventId}`,
       success: data => {
-        console.log('data from ajax request>>>', data);
+        // console.log('data from ajax request>>>', data);
         this.setState({ eventData: data });
       },
       error: (error) => console.log(error.message)
     })
+  }
+
+  updateAttendeeData(eventId) {
+    // get attendees for the given event 
+
+    $.ajax({
+      url: `api/events/${eventId}/attendees`,
+      success: data => {
+        console.log('data from ajax request for attendee list>>>', data);
+        this.setState({ attendees: data });
+      },
+      error: (error) => console.log(error.message)
+    });
+
+  }
+
+  updateLoggedInGuest(loggedInGuestId) {
+    this.setState({
+      loggedInGuestId: loggedInGuestId
+    });
   }
 
   handleRegister() {
@@ -51,6 +73,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.updateEventData(this.state.eventId);
+
   }
 
   render() {
@@ -64,7 +87,7 @@ class App extends React.Component {
     if (this.state.view === 'register') {
       return (
         <div>
-          <RegistrationForm eventData={this.state.eventData} updateEventData={this.updateEventData} />
+          <RegistrationForm eventData={this.state.eventData} updateLoggedInGuest={this.updateLoggedInGuest} updateAttendeeData={this.updateAttendeeData} />
         </div>
       )
     }

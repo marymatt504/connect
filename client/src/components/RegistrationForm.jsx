@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 // receieves from props updateEventData to update the state after post
 
@@ -7,6 +8,7 @@ class RegistrationForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      eventId: this.props.eventData.id,
       firstName: '',
       lastName: '',
       company: '',
@@ -15,7 +17,6 @@ class RegistrationForm extends React.Component {
       linkedInURL: '',
       email: '',
       photoURL: '',
-      eventId: this.props.eventData.eventId
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -25,15 +26,20 @@ class RegistrationForm extends React.Component {
 
   handleSubmit(event) {
     // post to database
+    event.preventDefault();
+
     $.ajax({
-      method: 'POST',
-      url: `api/attendees`,
-      type: 'application/json',
-      data: JSON.stringify(this.state),
-      success: data => {
-        // on success, i want to capture the id for this attendee
-        // and save it in the App state 
-        console.log('data posted!');
+      type: 'POST',
+      url: '/api/attendees',
+      data: this.state,
+      success: (data) => {
+        console.log(`data posted at ${Date()}`);
+
+        const loggedInGuestId = JSON.parse(data).newGuestId;
+
+        // update on App state, currently loggedin guest and attendee data
+        this.props.updateLoggedInGuest(loggedInGuestId);
+        this.props.updateAttendees(this.state.eventId);
 
         this.setState({
           firstName: '',
@@ -45,14 +51,13 @@ class RegistrationForm extends React.Component {
           email: '',
           photoURL: ''
         });
-        this.props.updateEventData();
-        event.preventDefault();
+
       },
-      error: (error) => console.log(error.message)
-    })
+      error: (error) => {
+        console.log('console log line 54 error: ', error);
+      }
 
-
-
+    });
   }
 
   handleChange(event) {
@@ -117,7 +122,7 @@ class RegistrationForm extends React.Component {
 
           <input type="submit" value="Submit" />
         </form>
-      </div>
+      </div >
     );
   }
 }
