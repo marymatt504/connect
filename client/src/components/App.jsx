@@ -14,7 +14,7 @@ class App extends React.Component {
       // user can be guest or admin 
       user: 'admin',
       view: 'home',
-      eventId: 2,
+      eventId: 4,
       eventData: {},
       loggedInGuestId: 0,
       attendees: []
@@ -47,7 +47,7 @@ class App extends React.Component {
     $.ajax({
       url: `api/events/${eventId}/attendees`,
       success: data => {
-        // console.log('data from ajax request for attendee list>>>', data);
+        console.log('data from ajax request for attendee list>>>', data);
         this.setState({ attendees: data });
       },
       error: (error) => console.log(error.message)
@@ -147,7 +147,7 @@ class App extends React.Component {
             return 1
           } else return -1
         })
-        console.log('sorted>>', sorted);
+        // console.log('sorted>>', sorted);
 
         groups[sorted[0]].attendees.push(guestToSort);
         groups[sorted[0]].industryCounts[guestToSort.industry]++;
@@ -171,6 +171,8 @@ class App extends React.Component {
           data: { id: attendeeObj.id, groupnumber: groupNumber },
           success: () => {
             console.log(`group number updated for attendee ${attendeeObj.id}`)
+            // TO DO: ideally want to only do this update ONCE after all requests are complete
+            this.updateAttendeeData(this.state.eventId);
           },
           error: (error) => {
             console.log('error from line 180 -- app.jsx PUT:', error);
@@ -181,8 +183,13 @@ class App extends React.Component {
 
     }
 
-  }
+    // WHERE SHOULD THIS GO B/C of ASYNCHRONOUS ABOVE?? for now, just made a separate button
+    // this.setState({
+    //   view: 'groups'
+    // });
 
+
+  }
 
   componentDidMount() {
     this.updateEventData(this.state.eventId);
@@ -222,8 +229,7 @@ class App extends React.Component {
 
       return (
         <div>
-          {/* in groups, want to pass down a filtered list of attendees by the group number of the currentlylogged in guest */}
-          <Groups />
+          <Groups attendees={this.state.attendees} />
         </div>
       )
     }
@@ -231,7 +237,7 @@ class App extends React.Component {
     if (this.state.view === 'admin_panel') {
       return (
         <div>
-          <Admin mixGroups={this.mixGroups} />
+          <Admin mixGroups={this.mixGroups} seeGroups={this.updateToGroupsView} />
         </div>
       )
     }

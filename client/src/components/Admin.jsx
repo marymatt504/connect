@@ -6,6 +6,9 @@ function Admin(props) {
       <button onClick={props.mixGroups}>
         Mix groups!
       </button>
+      <button onClick={props.seeGroups}>
+        See groups.
+      </button>
     </div>
   )
 }
