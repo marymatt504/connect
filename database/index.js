@@ -78,4 +78,20 @@ const getAttendeeData = (event_id, callback) => {
   });
 };
 
-module.exports = { getEventData, saveAttendee, getAttendeeData };
+const updateAttendeeGroup = (groupnumber, id, callback) => {
+  const query = {
+    text: 'UPDATE attendees SET groupNumber = $1 WHERE id = $2',
+    values: [groupnumber, id]
+  }
+
+  client.query(query, (error, results) => {
+    if (error) {
+      callback(error);
+    } else {
+      callback(null, results);
+    }
+  });
+
+}
+
+module.exports = { getEventData, saveAttendee, getAttendeeData, updateAttendeeGroup };
