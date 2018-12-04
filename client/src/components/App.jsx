@@ -90,37 +90,89 @@ class App extends React.Component {
     });
   }
 
-  mixGroups() {
-    // PUT request to database
-    // i have available in this.state.attendees an array of about 30 attendee objs
+  getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max)) + 1;
+  }
 
+  mixGroups() {
+    // * to develop further later... 
+    // current just spreading out 
+    // MVP mixing just based on diversity of industries -- later will add in location, gender, etc.
+    // make dyanmic basic on the industry options that are set by admin
     // number of groups determined by amount of attendeees divded by how many people you want in each group
-    // later will make this dynamic based on input by admin
 
     const groups = {
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: []
+      1: { industryCounts: { government: 0, tech: 0, healthcare: 0, nonprofit: 0, law: 0, finance: 0, marketing: 0, other: 0 }, attendees: [] },
+      2: { industryCounts: { government: 0, tech: 0, healthcare: 0, nonprofit: 0, law: 0, finance: 0, marketing: 0, other: 0 }, attendees: [] },
+      3: { industryCounts: { government: 0, tech: 0, healthcare: 0, nonprofit: 0, law: 0, finance: 0, marketing: 0, other: 0 }, attendees: [] },
+      4: { industryCounts: { government: 0, tech: 0, healthcare: 0, nonprofit: 0, law: 0, finance: 0, marketing: 0, other: 0 }, attendees: [] },
+      5: { industryCounts: { government: 0, tech: 0, healthcare: 0, nonprofit: 0, law: 0, finance: 0, marketing: 0, other: 0 }, attendees: [] },
     }
 
-    // const industries = ['government', 'tech', 'healthcare', 'nonprofit', 'law', 'finance', 'marketing', 'other'];
 
-    // later make dyanmic basic on the industry options that are set by admin
-    let governmentMax = 0;
-
-
+    let currentIndustryMax = {
+      government: 0,
+      tech: 0,
+      healthcare: 0,
+      nonprofit: 0,
+      law: 0,
+      finance: 0,
+      marketing: 0,
+      other: 0
+    };
 
     // iterate through guests
-    // iterate through groups
-    // if # of guests w/ the same industy as current guest in the current group is less than
-    // the max across all groups for the given industry
-    // add the current guest to that group
-    // break to move on to the next gues
-    // if reach the end of the groups and none had less than the max #,
-    // add current guest to group 1, and increment the max# by 1
 
+
+    this.state.attendees.forEach(guestToSort => {
+
+      let guestIsSorted = false;
+
+      // iterate through groups
+      // ** need to randomize this -- weighting adding to the early keys, so need to start on a random key, but still check all keys before moving on
+      //**  */ could also make array of groups instead of object of groups
+      for (var key in groups) {
+        // for a given group, if the amount of guests from that industry is less than the currMax of that industrynumber across all groups, safe to add them to teh group
+        if (groups[key].industryCounts[guestToSort.industry] < currentIndustryMax[guestToSort.industry]) {
+          groups[key].attendees.push(guestToSort);
+          groups[key].industryCounts[guestToSort.industry]++;
+          guestIsSorted = true;
+          break; // only need to sort each guest once; stop iterating through groups
+        }
+
+      }
+
+      if (guestIsSorted === false) {
+        // if after iterating through all the groups, the guest did not get sorted
+        // add the guest to the first group, increment the count for that group, and increment the max by 1
+
+        // instead of a randomNumber here, should find the smallest array and add to it
+        const randomGroup = this.getRandomInt(5).toString();
+        console.log('random group: ', randomGroup);
+
+        groups[randomGroup].attendees.push(guestToSort);
+        groups[randomGroup].industryCounts[guestToSort.industry]++;
+        currentIndustryMax[guestToSort.industry]++;
+      }
+
+    });
+
+    // ** instead of randomizing above, use this to always have the first array be the smallest and keep looping in order from smallest
+    // const groupIds = Object.keys(groups);
+    // const sorted = groupIds.sort((a, b) => {
+    //   if (groups[a].attendees.length > groups[b].attendees.length) {
+    //     return 1
+    //   } else return -1
+    // })
+    // console.log(sorted, 'is sorted')
+
+    // console.log to see if groups got sorted
+    console.log('groups after sorting: ', groups);
+    console.log('currentIndustryMax: ', currentIndustryMax);
+
+    // ** TO DO TUESDAY - SAVE TO DATABASE -- update group numbers by iterating through group
+    // update attendee Data in App state
+    // setup component to show groups for currLoggedInGuest 
 
   }
 
