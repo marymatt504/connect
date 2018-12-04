@@ -163,6 +163,27 @@ class App extends React.Component {
     // setup component to show groups for currLoggedInGuest 
     // move db password out of file
 
+    // update group number for each attendee in the database
+    for (var key in groups) {
+      let groupNumber = Number(key);
+      let groupMembers = groups[key].attendees;
+
+      attendees.forEach(attendeeObj => {
+        // ajax request to update the attendee
+        $.ajax({
+          method: "PUT",
+          data: { id: attendeeObj.id, groupNumber: groupNumber },
+          success: () => {
+            console.log(`group number updated for attendee ${attendeeObj.id}`)
+          },
+          error: (error) => {
+            console.log('error from line 180 -- app.jsx PUT:', error);
+          }
+        });
+
+      });
+
+    }
 
   }
 
