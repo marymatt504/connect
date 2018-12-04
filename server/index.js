@@ -20,6 +20,19 @@ app.get('/api/events/:eventId', function (req, res) {
   }))
 });
 
+app.get('/api/events/:eventId/attendees', (req, res) => {
+  const eventId = req.params.eventId;
+
+  db.getAttendeeData(eventId, ((error, results) => {
+    if (error) {
+      res.status(500).send(error.message);
+    } else {
+      // console.log('results.rows>>>>>>>', results.rows);
+      res.status(200).send(results.rows);
+    }
+  }))
+});
+
 app.post('/api/attendees', (req, res) => {
   console.log(req.body);
 

@@ -10,7 +10,7 @@ class App extends React.Component {
       // user can be guest or admin 
       user: 'admin',
       view: 'home',
-      eventId: 1,
+      eventId: 2,
       eventData: {
         // looks like...
         // "id": 2,
@@ -73,15 +73,20 @@ class App extends React.Component {
 
   componentDidMount() {
     this.updateEventData(this.state.eventId);
+    this.updateAttendeeData(this.state.eventId);
 
   }
 
   render() {
 
     if (this.state.view === 'home') {
+      // if (this.state.attendees.length > 0) {
+      //   console.log('test for attendee data>>>>>>', this.state.attendees[0].firstname);
+      // }
       return (<div>
         <h1>Welcome to Event Connect!</h1>
         <EventHome eventData={this.state.eventData} handleRegister={this.handleRegister} />
+        {/* We are expecting ${this.state.attendees[0].firstName + " " + this.state.attendees[0].lastName} among our guests! */}
       </div>)
     }
     if (this.state.view === 'register') {
