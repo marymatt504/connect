@@ -1,7 +1,7 @@
 import React from 'react';
 
 function EventHome(props) {
-  console.log('eventData>>>>', props.eventData);
+  // console.log('eventData>>>>', props.eventData);
   let { title, date, starttime, endtime, venuename, location_address1, city, state, postcode, description } = props.eventData;
   if (date) {
     date = date.slice(0, 10);
@@ -13,7 +13,7 @@ function EventHome(props) {
 
   return (
     <div>
-      <h2>Join us for our next connections event...</h2>
+      <h2>Next upcoming event...</h2>
       <h3>{title}</h3>
       <h4><i>{description}</i></h4>
       <h4><i>Where: {venuename}, {location_address1}, {city}, {state} {postcode}</i></h4>
