@@ -172,6 +172,7 @@ class App extends React.Component {
         // ajax request to update the attendee
         $.ajax({
           method: "PUT",
+          url: '/api/attendees',
           data: { id: attendeeObj.id, groupNumber: groupNumber },
           success: () => {
             console.log(`group number updated for attendee ${attendeeObj.id}`)
