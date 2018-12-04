@@ -109,7 +109,6 @@ class App extends React.Component {
       5: { industryCounts: { government: 0, tech: 0, healthcare: 0, nonprofit: 0, law: 0, finance: 0, marketing: 0, other: 0 }, attendees: [] },
     }
 
-
     let currentIndustryMax = {
       government: 0,
       tech: 0,
@@ -122,8 +121,6 @@ class App extends React.Component {
     };
 
     // iterate through guests
-
-
     this.state.attendees.forEach(guestToSort => {
 
       let guestIsSorted = false;
@@ -142,7 +139,7 @@ class App extends React.Component {
 
       }
 
-      if (guestIsSorted === false) {
+      if (!guestIsSorted) {
         // if after iterating through all the groups, the guest did not get sorted
         // add the guest to the first group, increment the count for that group, and increment the max by 1
 
@@ -153,6 +150,10 @@ class App extends React.Component {
         groups[randomGroup].attendees.push(guestToSort);
         groups[randomGroup].industryCounts[guestToSort.industry]++;
         currentIndustryMax[guestToSort.industry]++;
+
+        // try with sorting...
+
+
       }
 
     });
@@ -173,6 +174,7 @@ class App extends React.Component {
     // ** TO DO TUESDAY - SAVE TO DATABASE -- update group numbers by iterating through group
     // update attendee Data in App state
     // setup component to show groups for currLoggedInGuest 
+    // move db password out of file
 
   }
 
