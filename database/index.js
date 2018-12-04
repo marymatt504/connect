@@ -80,7 +80,7 @@ const getAttendeeData = (event_id, callback) => {
 
 const updateAttendeeGroup = (groupnumber, id, callback) => {
   const query = {
-    text: 'UPDATE attendees SET groupNumber = $1 WHERE id = $2',
+    text: 'UPDATE attendees SET groupnumber = $1 WHERE id = $2',
     values: [groupnumber, id]
   }
 

@@ -50,7 +50,21 @@ app.post('/api/attendees', (req, res) => {
       res.status(201).send(JSON.stringify({ newGuestId }));
     }
   });
+});
 
+app.put('/api/attendees', (req, res) => {
+  console.log(req.body);
+
+  console.log('req.body: ', req.body);
+  const { id, groupnumber } = req.body;
+
+  db.updateAttendeeGroup(groupnumber, id, (error, results) => {
+    if (error) {
+      res.status(500).send(error.message);
+    } else {
+      res.status(202).send();
+    }
+  });
 
 });
 

@@ -158,22 +158,17 @@ class App extends React.Component {
     console.log('groups after sorting: ', groups);
     console.log('currentIndustryMax: ', currentIndustryMax);
 
-    // ** TO DO TUESDAY - SAVE TO DATABASE -- update group numbers by iterating through group
-    // update attendee Data in App state
-    // setup component to show groups for currLoggedInGuest 
-    // move db password out of file
-
     // update group number for each attendee in the database
     for (var key in groups) {
       let groupNumber = Number(key);
       let groupMembers = groups[key].attendees;
 
-      attendees.forEach(attendeeObj => {
+      groupMembers.forEach(attendeeObj => {
         // ajax request to update the attendee
         $.ajax({
           method: "PUT",
           url: '/api/attendees',
-          data: { id: attendeeObj.id, groupNumber: groupNumber },
+          data: { id: attendeeObj.id, groupnumber: groupNumber },
           success: () => {
             console.log(`group number updated for attendee ${attendeeObj.id}`)
           },
