@@ -40,6 +40,7 @@ class RegistrationForm extends React.Component {
         // update on App state, currently loggedin guest and attendee data
         this.props.updateLoggedInGuest(loggedInGuestId);
         this.props.updateAttendeeData(this.state.eventId);
+        this.props.updateView('confirmation');
 
         this.setState({
           firstName: '',

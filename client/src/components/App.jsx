@@ -20,6 +20,7 @@ class App extends React.Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.updateAttendeeData = this.updateAttendeeData.bind(this);
     this.updateLoggedInGuest = this.updateLoggedInGuest.bind(this);
+    this.updateView = this.updateView.bind(this);
   }
 
   updateEventData(eventId) {
@@ -58,6 +59,12 @@ class App extends React.Component {
     this.setState({ view: 'register', user: 'guest' });
   }
 
+  updateView(newView) {
+    this.setState({
+      view: newView
+    });
+  }
+
 
   componentDidMount() {
     this.updateEventData(this.state.eventId);
@@ -77,10 +84,20 @@ class App extends React.Component {
         {/* We are expecting ${this.state.attendees[0].firstName + " " + this.state.attendees[0].lastName} among our guests! */}
       </div>)
     }
+
     if (this.state.view === 'register') {
       return (
         <div>
-          <RegistrationForm eventData={this.state.eventData} updateLoggedInGuest={this.updateLoggedInGuest} updateAttendeeData={this.updateAttendeeData} />
+          <RegistrationForm eventData={this.state.eventData} updateLoggedInGuest={this.updateLoggedInGuest} updateAttendeeData={this.updateAttendeeData} updateView={this.updateView} />
+        </div>
+      )
+    }
+
+    if (this.state.view === 'confirmation') {
+      return (
+        <div>
+          Congrats you are RSVPed!
+          to add here... click to find your group for the event
         </div>
       )
     }
