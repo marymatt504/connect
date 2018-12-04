@@ -11,7 +11,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // user can be guest or admin 
       user: 'admin',
       view: 'home',
       eventId: 4,
@@ -23,11 +22,11 @@ class App extends React.Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.updateAttendeeData = this.updateAttendeeData.bind(this);
     this.updateLoggedInGuest = this.updateLoggedInGuest.bind(this);
-    // this.updateView = this.updateView.bind(this);
     this.updateToConfirmationView = this.updateToConfirmationView.bind(this);
     this.updateToGroupsView = this.updateToGroupsView.bind(this);
     this.handleAdminLogin = this.handleAdminLogin.bind(this);
     this.mixGroups = this.mixGroups.bind(this);
+    // this.updateView = this.updateView.bind(this);
   }
 
   updateEventData(eventId) {
@@ -40,10 +39,8 @@ class App extends React.Component {
       error: (error) => console.log(error.message)
     })
   }
-
   updateAttendeeData(eventId) {
     // get attendees for the given event 
-
     $.ajax({
       url: `api/events/${eventId}/attendees`,
       success: data => {
@@ -52,24 +49,19 @@ class App extends React.Component {
       },
       error: (error) => console.log(error.message)
     });
-
   }
-
   updateLoggedInGuest(loggedInGuestId) {
     this.setState({
       loggedInGuestId: loggedInGuestId
     });
   }
-
   handleRegister() {
     // console.log('clicked register!')
     this.setState({ view: 'register', user: 'guest' });
   }
-
   handleAdminLogin() {
     this.setState({ view: 'admin_panel', user: 'admin' });
   }
-
   // To do: refactor view updates to use one shared method
   // updateView(newView) {
   //   console.log('updating view to: ', newView);
@@ -77,23 +69,19 @@ class App extends React.Component {
   //     view: newView
   //   });
   // }
-
   updateToConfirmationView() {
     this.setState({
       view: 'confirmation'
     });
   }
-
   updateToGroupsView() {
     this.setState({
       view: 'groups'
     });
   }
-
   getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
-
   mixGroups() {
     // * to develop further later... 
     // current just spreading out 
@@ -178,17 +166,9 @@ class App extends React.Component {
             console.log('error from line 180 -- app.jsx PUT:', error);
           }
         });
-
       });
-
     }
-
-    // WHERE SHOULD THIS GO B/C of ASYNCHRONOUS ABOVE?? for now, just made a separate button
-    // this.setState({
-    //   view: 'groups'
-    // });
-
-
+    // to do: update state after asyncronous calls complete 
   }
 
   componentDidMount() {
@@ -203,7 +183,7 @@ class App extends React.Component {
       //   console.log('test for attendee data>>>>>>', this.state.attendees[0].firstname);
       // }
       return (<div>
-        <h1>Welcome to Event Connect!</h1>
+        <h1>Welcome to Event Connections!</h1>
         <EventHome eventData={this.state.eventData} handleRegister={this.handleRegister} handleAdminLogin={this.handleAdminLogin} />
         {/* We are expecting ${this.state.attendees[0].firstName + " " + this.state.attendees[0].lastName} among our guests! */}
       </div>)
