@@ -47,7 +47,7 @@ class App extends React.Component {
     $.ajax({
       url: `api/events/${eventId}/attendees`,
       success: data => {
-        console.log('data from ajax request for attendee list>>>', data);
+        // console.log('data from ajax request for attendee list>>>', data);
         this.setState({ attendees: data });
       },
       error: (error) => console.log(error.message)
