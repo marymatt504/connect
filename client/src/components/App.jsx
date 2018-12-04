@@ -47,7 +47,7 @@ class App extends React.Component {
     $.ajax({
       url: `api/events/${eventId}/attendees`,
       success: data => {
-        console.log('data from ajax request for attendee list>>>', data);
+        // console.log('data from ajax request for attendee list>>>', data);
         this.setState({ attendees: data });
       },
       error: (error) => console.log(error.message)
@@ -122,12 +122,10 @@ class App extends React.Component {
 
     // iterate through guests
     this.state.attendees.forEach(guestToSort => {
-
       let guestIsSorted = false;
 
       // iterate through groups
-      // ** need to randomize this -- weighting adding to the early keys, so need to start on a random key, but still check all keys before moving on
-      //**  */ could also make array of groups instead of object of groups
+      // ** after MVP, need to start the loop by checking the smallest group first -- currently weighting adding to the early keys (making early keys have larger group), but still check all keys before moving on
       for (var key in groups) {
         // for a given group, if the amount of guests from that industry is less than the currMax of that industrynumber across all groups, safe to add them to teh group
         if (groups[key].industryCounts[guestToSort.industry] < currentIndustryMax[guestToSort.industry]) {
@@ -136,38 +134,27 @@ class App extends React.Component {
           guestIsSorted = true;
           break; // only need to sort each guest once; stop iterating through groups
         }
-
       }
 
       if (!guestIsSorted) {
         // if after iterating through all the groups, the guest did not get sorted
-        // add the guest to the first group, increment the count for that group, and increment the max by 1
+        // add the guest to the group with the least amount of attendees, 
+        // increment the count for that group, and increment the max by 1
 
-        // instead of a randomNumber here, should find the smallest array and add to it
-        const randomGroup = this.getRandomInt(5).toString();
-        console.log('random group: ', randomGroup);
+        const groupIds = Object.keys(groups);
+        const sorted = groupIds.sort((a, b) => {
+          if (groups[a].attendees.length > groups[b].attendees.length) {
+            return 1
+          } else return -1
+        })
+        console.log('sorted>>', sorted);
 
-        groups[randomGroup].attendees.push(guestToSort);
-        groups[randomGroup].industryCounts[guestToSort.industry]++;
+        groups[sorted[0]].attendees.push(guestToSort);
+        groups[sorted[0]].industryCounts[guestToSort.industry]++;
         currentIndustryMax[guestToSort.industry]++;
-
-        // try with sorting...
-
-
       }
-
     });
 
-    // ** instead of randomizing above, use this to always have the first array be the smallest and keep looping in order from smallest
-    // const groupIds = Object.keys(groups);
-    // const sorted = groupIds.sort((a, b) => {
-    //   if (groups[a].attendees.length > groups[b].attendees.length) {
-    //     return 1
-    //   } else return -1
-    // })
-    // console.log(sorted, 'is sorted')
-
-    // console.log to see if groups got sorted
     console.log('groups after sorting: ', groups);
     console.log('currentIndustryMax: ', currentIndustryMax);
 
@@ -176,13 +163,13 @@ class App extends React.Component {
     // setup component to show groups for currLoggedInGuest 
     // move db password out of file
 
+
   }
 
 
   componentDidMount() {
     this.updateEventData(this.state.eventId);
     this.updateAttendeeData(this.state.eventId);
-
   }
 
   render() {
