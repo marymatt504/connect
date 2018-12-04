@@ -40,7 +40,6 @@ class RegistrationForm extends React.Component {
         // update on App state, currently loggedin guest and attendee data
         this.props.updateLoggedInGuest(loggedInGuestId);
         this.props.updateAttendeeData(this.state.eventId);
-        this.props.updateView('confirmation');
 
         this.setState({
           firstName: '',
@@ -53,6 +52,7 @@ class RegistrationForm extends React.Component {
           photoURL: ''
         });
 
+        this.props.updateToConfirmationView();
       },
       error: (error) => {
         console.log('console log line 54 error: ', error);

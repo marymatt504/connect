@@ -21,7 +21,7 @@ function EventHome(props) {
       <button onClick={props.handleRegister}>
         Register
       </button>
-      <button>
+      <button onClick={props.handleAdminLogin}>
         Admin Login
       </button>
 

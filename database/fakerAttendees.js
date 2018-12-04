@@ -1,6 +1,7 @@
 const faker = require('faker');
 const fs = require('fs');
 
+// 7 industry types -- 8 with "other" option added on client form
 const industries = ['government', 'tech', 'healthcare', 'nonprofit', 'law', 'finance', 'marketing'];
 
 const randNum = max => Math.floor(Math.random() * max);

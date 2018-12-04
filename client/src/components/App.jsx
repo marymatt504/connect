@@ -1,6 +1,10 @@
 import React from 'react';
 import EventHome from './EventHome.jsx'
 import RegistrationForm from './RegistrationForm.jsx';
+import Confirmation from './Confirmation.jsx';
+import Groups from './Groups.jsx';
+import Admin from './Admin.jsx';
+
 const $ = require('jquery');
 
 class App extends React.Component {
@@ -11,8 +15,7 @@ class App extends React.Component {
       user: 'admin',
       view: 'home',
       eventId: 2,
-      eventData: {
-      },
+      eventData: {},
       loggedInGuestId: 0,
       attendees: []
     };
@@ -20,7 +23,11 @@ class App extends React.Component {
     this.handleRegister = this.handleRegister.bind(this);
     this.updateAttendeeData = this.updateAttendeeData.bind(this);
     this.updateLoggedInGuest = this.updateLoggedInGuest.bind(this);
-    this.updateView = this.updateView.bind(this);
+    // this.updateView = this.updateView.bind(this);
+    this.updateToConfirmationView = this.updateToConfirmationView.bind(this);
+    this.updateToGroupsView = this.updateToGroupsView.bind(this);
+    this.handleAdminLogin = this.handleAdminLogin.bind(this);
+    this.mixGroups = this.mixGroups.bind(this);
   }
 
   updateEventData(eventId) {
@@ -59,10 +66,62 @@ class App extends React.Component {
     this.setState({ view: 'register', user: 'guest' });
   }
 
-  updateView(newView) {
+  handleAdminLogin() {
+    this.setState({ view: 'admin_panel', user: 'admin' });
+  }
+
+  // To do: refactor view updates to use one shared method
+  // updateView(newView) {
+  //   console.log('updating view to: ', newView);
+  //   this.setState({
+  //     view: newView
+  //   });
+  // }
+
+  updateToConfirmationView() {
     this.setState({
-      view: newView
+      view: 'confirmation'
     });
+  }
+
+  updateToGroupsView() {
+    this.setState({
+      view: 'groups'
+    });
+  }
+
+  mixGroups() {
+    // PUT request to database
+    // i have available in this.state.attendees an array of about 30 attendee objs
+
+    // number of groups determined by amount of attendeees divded by how many people you want in each group
+    // later will make this dynamic based on input by admin
+
+    const groups = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: []
+    }
+
+    // const industries = ['government', 'tech', 'healthcare', 'nonprofit', 'law', 'finance', 'marketing', 'other'];
+
+    // later make dyanmic basic on the industry options that are set by admin
+    let governmentMax = 0;
+
+
+
+    // iterate through guests
+    // iterate through groups
+    // if # of guests w/ the same industy as current guest in the current group is less than
+    // the max across all groups for the given industry
+    // add the current guest to that group
+    // break to move on to the next gues
+    // if reach the end of the groups and none had less than the max #,
+    // add current guest to group 1, and increment the max# by 1
+
+
   }
 
 
@@ -80,7 +139,7 @@ class App extends React.Component {
       // }
       return (<div>
         <h1>Welcome to Event Connect!</h1>
-        <EventHome eventData={this.state.eventData} handleRegister={this.handleRegister} />
+        <EventHome eventData={this.state.eventData} handleRegister={this.handleRegister} handleAdminLogin={this.handleAdminLogin} />
         {/* We are expecting ${this.state.attendees[0].firstName + " " + this.state.attendees[0].lastName} among our guests! */}
       </div>)
     }
@@ -88,7 +147,7 @@ class App extends React.Component {
     if (this.state.view === 'register') {
       return (
         <div>
-          <RegistrationForm eventData={this.state.eventData} updateLoggedInGuest={this.updateLoggedInGuest} updateAttendeeData={this.updateAttendeeData} updateView={this.updateView} />
+          <RegistrationForm eventData={this.state.eventData} updateLoggedInGuest={this.updateLoggedInGuest} updateAttendeeData={this.updateAttendeeData} updateToConfirmationView={this.updateToConfirmationView} />
         </div>
       )
     }
@@ -96,8 +155,25 @@ class App extends React.Component {
     if (this.state.view === 'confirmation') {
       return (
         <div>
-          Congrats you are RSVPed!
-          to add here... click to find your group for the event
+          <Confirmation eventData={this.state.eventData} updateToGroupsView={this.updateToGroupsView} />
+        </div>
+      )
+    }
+
+    if (this.state.view === 'groups') {
+
+      return (
+        <div>
+          {/* in groups, want to pass down a filtered list of attendees by the group number of the currentlylogged in guest */}
+          <Groups />
+        </div>
+      )
+    }
+
+    if (this.state.view === 'admin_panel') {
+      return (
+        <div>
+          <Admin mixGroups={this.mixGroups} />
         </div>
       )
     }
