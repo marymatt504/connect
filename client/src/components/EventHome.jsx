@@ -14,6 +14,7 @@ function EventHome(props) {
   return (
     <div>
       <h2>Next upcoming event...</h2>
+      <h2>process env here...{process.env.DB_USER}</h2>
       <h3>{title}</h3>
       <h4><i>{description}</i></h4>
       <h4><i>Where: {venuename}, {location_address1}, {city}, {state} {postcode}</i></h4>

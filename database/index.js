@@ -1,8 +1,10 @@
+const { DB_USER, DB_PSWD } = require('../app-env.js');
+
 const { Pool, Client } = require('pg');
 
 const pool = new Pool({
-  user: 'marymatthews',
-  password: 'password',
+  user: DB_USER,
+  password: DB_PSWD,
   // host: 'localhost',
   // port: 5432,
   database: 'event_connections',
@@ -18,8 +20,8 @@ pool.query('SELECT NOW()', (err, res) => {
 });
 
 const client = new Client({
-  user: 'marymatthews',
-  password: 'password',
+  user: DB_USER,
+  password: DB_PSWD,
   // host: '3.17.23.188',
   // port: 5432,
   database: 'event_connections',

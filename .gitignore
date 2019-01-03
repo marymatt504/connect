@@ -16,3 +16,5 @@ NOTES.js
 
 database/events.csv
 database/attendees.csv
+
+app-env.js 
